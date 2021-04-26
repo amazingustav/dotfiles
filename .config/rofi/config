@@ -1,0 +1,3 @@
+rofi.theme: glue_pro_blue
+rofi.font: DejaVu Sans Mono 12
+rofi.theme: /usr/share/rofi/themes/glue_pro_blue.rasi

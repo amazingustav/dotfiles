@@ -1,0 +1,4 @@
+configuration {
+	font: "DejaVu Sans Mono 12";
+	theme: "/usr/share/rofi/themes/glue_pro_blue.rasi";
+}
