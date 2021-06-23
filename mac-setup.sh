@@ -13,7 +13,7 @@ brew update
 brew tap homebrew/cask
 
 # DEFAULT
-brew cask install visual-studio-code iterm2 postman spotify slack jetbrains-toolbox docker visualvm
+brew cask install visual-studio-code iterm2 postman spotify slack jetbrains-toolbox docker visualvm authy zoom
 brew install zsh zsh-syntax-highlighting oh-my-zsh-git ttf-fira-code man xclip tree curl python python-pip cmake git zip unzip jq htop nodejs npm ghex docker-compose ctop google-chrome awscli k9s subliminal android-sdk jdk8-openjdk
 # DEFAULT
 
