@@ -177,7 +177,7 @@ User email: $GIT_EMAIL
 
             ssh-keygen -t rsa -b 4096 -C "$GIT_EMAIL" -f ~/.ssh/id_rsa_$VCS_NAME -q -N ""
             ssh-add ~/.ssh/id_rsa_$VCS_NAME
-            xclip -sel clip < ~/.ssh/id_rsa_$VCS_NAME.pub
+            eval "$(ssh-agent -s)"
 
             clear
 
@@ -185,14 +185,15 @@ User email: $GIT_EMAIL
 ╔══════════════════════════════════════════════╗
 ║         Your SSH key is on clipboard         ║
 ╠══════════════════════════════════════════════╣
-║   Press Enter and paste the SSH key on the   ║
-║ website that will open.                      ║
-╚══════════════════════════════════════════════╝${NO_COLOR}"
-            read
-            xdg-open $VCS_SSH_URL > /dev/null 2>&1
+║   Copy your SSH key below and paste on the   ║
+║  website that is shown                       ║
+╚══════════════════════════════════════════════╝${NO_COLOR}\n\n"
             
-            clear
-            read -p "Do you want to configure another SSH key? [y/N]: " CONTINUE_OPTION
+            cat $HOME/.ssh/id_rsa_$VCS_NAME.pub
+            
+            echo "\n\nURL: $VCS_SSH_URL"
+            
+            read -p "\n\nDo you want to configure another SSH key? [y/N]: " CONTINUE_OPTION
 
             if [ "$CONTINUE_OPTION" != "y" ] && [ "$CONTINUE_OPTION" != "Y" ]; then
                 break
