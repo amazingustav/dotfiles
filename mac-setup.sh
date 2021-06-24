@@ -170,3 +170,13 @@ export PATH=\$PATH:$ANDROID_HOME/platform-tools
     # ANDROID-SDK
 fi
 # ZSHELL
+
+    echo "
+╔══════════════════════════════════════╗
+║          YOUR SETUP IS DONE          ║
+╚══════════════════════════════════════╝
+ 
+ 1. Make shure no error appeared above;
+ 2. To use ZSH properly, you have to edit the /etc/shells and remove all shells, except the last one;
+
+"
