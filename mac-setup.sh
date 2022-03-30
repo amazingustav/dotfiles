@@ -15,11 +15,10 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 brew update
 brew tap homebrew/cask
 brew tap homebrew/cask-fonts
-brew tap AdoptjOpenJDK/openjdk
 
 # DEFAULT
-brew install --cask visual-studio-code iterm2 postman spotify slack jetbrains-toolbox docker visualvm authy zoom font-fira-code adoptopenjdk8
-brew install zsh zsh-syntax-highlighting tldr xclip tree curl python cmake git grep zip unzip jq htop nodejs npm ghex docker-compose ctop google-chrome awscli k9s subliminal android-sdk authy ranger
+brew install --cask visual-studio-code iterm2 postman spotify slack jetbrains-toolbox docker visualvm authy zoom font-fira-code
+brew install zsh zsh-syntax-highlighting tldr xclip tree curl python cmake git grep zip unzip jq htop nodejs npm ghex docker-compose ctop google-chrome awscli k9s subliminal authy ranger
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 # DEFAULT
@@ -64,34 +63,6 @@ if [ $(isInstalled npm) == 1 ]; then
     npm install -g yarn @nestjs/cli npm@6.14.13 react-native-cli create-react-app create-next-app vercel json-server expo-cli netlify-cli
 fi
 # NPM
-
-# ANDROID-SDK
-    mkdir -p ~/.android && touch ~/.android/repositories.cfg
-
-    export JAVA_HOME=$(/usr/libexec/java-home)
-    export ANDROID_HOME=/usr/local/bin/android-sdk
-    export PATH=$PATH:$ANDROID_HOME/emulator
-    export PATH=$PATH:$ANDROID_HOME/tools
-    export PATH=$PATH:$ANDROID_HOME/tools/bin
-    export PATH=$PATH:$ANDROID_HOME/platform-tools
-
-	  sudo chown $USER:$USER $ANDROID_HOME -R
-
-    sdkmanager --update
-    yes | sdkmanager --install platform-tools emulator
-    yes | sdkmanager --licenses
-
-    SDKMANAGER_LIST=$(sdkmanager --list)
-    SDKMANAGER_PLATFORMS=$(echo $SDKMANAGER_LIST | ggrep -Po "platforms;android-(\d{2,}|[a-zA-Z]*)" | sort -r | head -1)
-    SDKMANAGER_BUILD_TOOLS=$(echo $SDKMANAGER_LIST | ggrep -Po "build-tools;(\d+\.){2}\d+(?=\s)" | sort -r | head -1)
-    SDKMANAGER_SYSTEM_IMAGES=$(echo $SDKMANAGER_LIST | ggrep -Po "system-images;android\S*google_apis;x86_64" | sort -r | head -1)
-
-    sdkmanager "$SDKMANAGER_PLATFORMS"
-    sdkmanager "$SDKMANAGER_BUILD_TOOLS"
-    sdkmanager "$SDKMANAGER_SYSTEM_IMAGES"
-    avdmanager create avd --force --name pixel --device "pixel_xl" --package "$SDKMANAGER_SYSTEM_IMAGES"
-fi
-# ANDROID-SDK
 
 # ZSHELL
 if [ $(isInstalled zsh) == 1 ]; then
@@ -159,18 +130,6 @@ export SDKMAN_DIR=\"\$HOME/.sdkman\"
 [[ -s \"\$HOME/.sdkman/bin/sdkman-init.sh\" ]] && source \"\$HOME/.sdkman/bin/sdkman-init.sh\"" >> ~/.zshrc
     fi
     # SDKMAN
-
-    # ANDROID-SDK
-    echo "
-# ANDROID-SDK
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
-export ANDROID_HOME=/usr/local/bin/android-sdk
-export PATH=\$PATH:$ANDROID_HOME/emulator
-export PATH=\$PATH:$ANDROID_HOME/tools
-export PATH=\$PATH:$ANDROID_HOME/tools/bin
-export PATH=\$PATH:$ANDROID_HOME/platform-tools
-" >> ~/.zshrc
-    # ANDROID-SDK
 fi
 # ZSHELL
 
