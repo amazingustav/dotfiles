@@ -97,7 +97,7 @@ fi
 
 export ZSH=\"/Users/$USER/.oh-my-zsh\"
 
-plugins=(autopep8 aws colored-man-pages command-not-found dotenv docker docker-compose man pep8 pip rust rustup sudo golang gradle kubectl mvn sdk spring react-native npm yarn)" > ~/.zshrc
+plugins=(autopep8 aws colored-man-pages command-not-found dotenv docker docker-compose man pep8 pip rust sudo golang gradle kubectl mvn sdk spring react-native npm yarn)" > ~/.zshrc
 
     echo -n "
 # PYTHON VARS
