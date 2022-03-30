@@ -18,7 +18,7 @@ brew tap homebrew/cask-fonts
 
 # DEFAULT
 brew install --cask visual-studio-code iterm2 postman spotify slack jetbrains-toolbox docker visualvm authy zoom font-fira-code docker
-brew install zsh zsh-syntax-highlighting tldr xclip tree curl python cmake git grep zip unzip jq htop nodejs npm ghex ctop google-chrome awscli k9s subliminal authy ranger
+brew install zsh zsh-syntax-highlighting tldr xclip tree python cmake git grep jq htop nodejs npm ghex ctop google-chrome awscli k9s subliminal authy ranger
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 # DEFAULT
@@ -55,7 +55,7 @@ if [ $(isInstalled sdk) == 1 ]; then
     sed -i '/colour_enable/s/false/true/' ~/.sdkman/etc/config
     sed -i '/auto_env/s/false/true/' ~/.sdkman/etc/config
 
-    sdk list java | ggrep -Po "(8|11|16)(\.\d+)+-zulu" | while read -r JAVA_LATEST_MINOR; do
+    sdk list java | ggrep -Po "(8|11)(\.\d+)+-zulu" | while read -r JAVA_LATEST_MINOR; do
         sdk install java $JAVA_LATEST_MINOR < /dev/null
     done
     
