@@ -17,11 +17,16 @@ brew tap homebrew/cask
 brew tap homebrew/cask-fonts
 
 # DEFAULT
-brew install --cask visual-studio-code iterm2 postman spotify slack jetbrains-toolbox docker visualvm authy zoom font-fira-code
-brew install zsh zsh-syntax-highlighting tldr xclip tree curl python cmake git grep zip unzip jq htop nodejs npm ghex docker-compose ctop google-chrome awscli k9s subliminal authy ranger
+brew install --cask visual-studio-code iterm2 postman spotify slack jetbrains-toolbox docker visualvm authy zoom font-fira-code docker
+brew install zsh zsh-syntax-highlighting tldr xclip tree curl python cmake git grep zip unzip jq htop nodejs npm ghex ctop google-chrome awscli k9s subliminal authy ranger
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 # DEFAULT
+
+# DOCKER-COMPOSE
+mkdir -p ~/.docker/cli-plugins
+ln -sfn /opt/homebrew/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
+# DOCKER-COMPOSE
 
 # PYTHON
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
