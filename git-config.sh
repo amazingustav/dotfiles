@@ -65,7 +65,21 @@ User email: $GIT_EMAIL
             git config --global user.name "$GIT_NAME"
             git config --global user.email "$GIT_EMAIL"
             git config --global pull.rebase true
+            git config --global push.default current
             git config --global init.defaultBranch main
+            git config --global core.editor nano
+            git config --global alias.ci commit
+            git config --global alias.co checkout
+            git config --global alias.cb "checkout -b"
+            git config --global alias.br branch
+            git config --global alias.st status
+            git config --global alias.sf "show --name-only"
+            git config --global alias.lg "log --pretty=format:'%Cred%h%Creset %C(bold)%cr%Creset %Cgreen<%an>%Creset %s' --max-count=30"
+            git config --global alias.incoming "!(git fetch --quiet && git log --pretty=format:'%C(yellow)%h %C(white)- %C(red)%an %C(white)- %C(cyan)%d%Creset %s %C(white)- %ar%Creset' ..@{u})"
+            git config --global alias.outgoing "!(git fetch --quiet && git log --pretty=format:'%C(yellow)%h %C(white)- %C(red)%an %C(white)- %C(cyan)%d%Creset %s %C(white)- %ar%Creset' @{u}..)"
+            git config --global alias.unstage "reset HEAD --"
+            git config --global alias.undo "checkout --"
+            git config --global alias.rollback "reset --soft HEAD~1"  
         fi
     elif [ "$MENU_OPTION" == "2" ]; then
         DIRECTORY=~/
