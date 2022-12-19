@@ -191,7 +191,14 @@ User email: $GIT_EMAIL
 
             ssh-keygen -t rsa -b 4096 -C "$GIT_EMAIL" -f ~/.ssh/id_rsa_$VCS_NAME -q -N ""
             ssh-add ~/.ssh/id_rsa_$VCS_NAME
+            touch ~/.ssh/config
             eval "$(ssh-agent -s)"
+cat >> ~/.ssh/config <<EOF
+Host $VCS_NAME.com
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_rsa_$VCS_NAME
+EOF
 
             clear
 
