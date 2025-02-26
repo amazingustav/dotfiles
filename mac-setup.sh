@@ -11,18 +11,18 @@ function isInstalled() {
 ╔══════════════════════════════════════╗
 ║    Which architecture do you have?   ║
 ╠══════════════════════════════════════╣
-║ 1. Apple Silicon (M1 Chip)           ║
+║ 1. Apple Silicon                     ║
 ║ 2. Intel Chip                        ║
 ╚══════════════════════════════════════╝
 "
     read -p "Option: " MENU_OPTION
 
     if [ "$MENU_OPTION" == "1" ]; then
-      KUBECTL_URL = "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/arm64/kubectl"
-      BREW_PATH = "/opt/homebrew/bin/brew"
+      KUBECTL_URL="https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/arm64/kubectl"
+      BREW_PATH="/opt/homebrew/bin/brew"
     elif [ "$MENU_OPTION" == "2" ]; then
-      KUBECTL_URL = "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/amd64/kubectl"
-      BREW_PATH = "/usr/local/bin/brew"
+      KUBECTL_URL="https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/amd64/kubectl"
+      BREW_PATH="/usr/local/bin/brew"
     else
       break
     fi
@@ -43,42 +43,42 @@ eval "$($BREW_PATH shellenv)"
 # DEFAULT #
 ###########
 brew update
-brew tap homebrew/cask
-brew tap homebrew/cask-fonts
 
-brew install --cask spotify slack authy zoom font-fira-code
-brew install zsh zsh-syntax-highlighting google-chrome tldr xclip tree git grep htop ghex subliminal ranger
+brew install --cask font-jetbrains-mono-nerd-font
+brew install zsh zsh-syntax-highlighting tldr xclip tree git grep htop ghex ranger
 
-# DEV TOOLS
-brew tap dbcli/tap
-brew install --cask visual-studio-code postman jetbrains-toolbox docker visualvm
-brew install asdf pgcli python cmake git jq node npm ctop awscli k9s
+###################
+## OPTIONAL TOOLS #
+###################
+brew install --cask slack zoom plex-media-server elmedia-player ytmdesktop-youtube-music discord monitorcontrol rectangle notion balenaetcher logi-options+ steam
+
+# APP STORE TOOLS
+brew install mas # Mac App Store CLI
+mas install 1510445899 # Meeter
+mas install 1561788435 # Usage
+mas install 1339001002 # Record It
+
+#############
+# DEV TOOLS #
+#############
+brew install --cask visual-studio-code jetbrains-toolbox orbstack bruno warp raycast
+brew install asdf pgcli pyenv cmake git jq ctop awscli k9s
 
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
 curl -L0 $KUBECTL_URL
 
-##################
-# DOCKER-COMPOSE #
-##################
 clear
 echo "
 ╔══════════════════════════════════════╗
 ║     CONFIGURING DOCKER AND PYTHON    ║
 ╚══════════════════════════════════════╝
 "
+# DOCKER-COMPOSE
 mkdir -p ~/.docker/cli-plugins
 ln -sfn /opt/homebrew/opt/docker-compose/bin/docker-compose ~/.docker/cli-plugins/docker-compose
 
-##########
-# PYTHON #
-##########
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python3 get-pip.py
-
-if [ $(isInstalled pip) == 1 ]; then
-    pip install --user pipenv virtualenv awscli localstack-client localstack
-fi
+# PYTHON
+pyenv install 3.13.1 && pyenv global 3.13.1
 
 ##########
 # SDKMAN #
@@ -91,33 +91,23 @@ echo "
 "
 if [ $(isInstalled zsh) == 1 ] && [ $(isInstalled sdk) == 0 ]; then
     curl -s "https://get.sdkman.io" | zsh
-fi
-
-SDKMAN_INIT_FILE="$HOME/.sdkman/bin/sdkman-init.sh"
-if [ -f "$SDKMAN_INIT_FILE" ]; then
-    source "$SDKMAN_INIT_FILE"
+    source "$HOME/.sdkman/bin/sdkman-init.sh"
 fi
 
 if [ $(isInstalled sdk) == 1 ]; then
     sdk selfupdate force
 
-    sed -i '/auto_answer/s/false/true/' ~/.sdkman/etc/config
-    sed -i '/auto_selfupdate/s/false/true/' ~/.sdkman/etc/config
-    sed -i '/colour_enable/s/false/true/' ~/.sdkman/etc/config
-    sed -i '/auto_env/s/false/true/' ~/.sdkman/etc/config
+    sed -i '' '/auto_answer/s/false/true/' ~/.sdkman/etc/config > /dev/null 2>&1
+    sed -i '' '/auto_selfupdate/s/false/true/' ~/.sdkman/etc/config > /dev/null 2>&1
+    sed -i '' '/colour_enable/s/false/true/' ~/.sdkman/etc/config > /dev/null 2>&1
+    sed -i '' '/auto_env/s/false/true/' ~/.sdkman/etc/config > /dev/null 2>&1
 
-    sdk list java | ggrep -Po "(16)(\.\d+)+-adoptopenjdk" | while read -r JAVA_LATEST_MINOR; do
+    sdk list java | ggrep -Po "(21)(\.\d+)+-amzn" | while read -r JAVA_LATEST_MINOR; do
         sdk install java $JAVA_LATEST_MINOR < /dev/null
+        break
     done
 
     sdk install kotlin < /dev/null
-fi
-
-#######
-# NPM #
-#######
-if [ $(isInstalled npm) == 1 ]; then
-    npm install -g yarn @nestjs/cli npm@6.14.13 react-native-cli vercel json-server expo-cli netlify-cli
 fi
 
 ##########
@@ -138,29 +128,28 @@ if [ $(isInstalled zsh) == 1 ]; then
     fi
     mkdir -p ~/.cache/zsh
     touch ~/.zsh_profile
+fi
 
     # DEFAULT
     echo "##################
 # OH-MY-ZSH VARS #
 ##################
 ZSH_CACHE_DIR=~/.cache/zsh
-ZSH_THEME=\"cloud\" #suvash
+ZSH_THEME='avit'
 if [ \`tput colors\` != \"256\" ]; then
-  ZSH_THEME=\"dstufft\"
+  ZSH_THEME='dstufft'
 fi
 export ZSH=\"$HOME/.oh-my-zsh\"
-plugins=(autopep8 aws colored-man-pages command-not-found dotenv docker docker-compose man pep8 pip rust sudo golang gradle kubectl mvn sdk spring react-native npm yarn)" > ~/.zshrc
+plugins=(autopep8 pep8 git aws colored-man-pages command-not-found dotenv docker docker-compose man pip rust sudo golang gradle kubectl mvn sdk spring react-native npm yarn)" > ~/.zshrc
 
     echo -n "
-# PYTHON VARS
-PIPENV_VENV_IN_PROJECT=true
-# FUNCTIONS
-kill-on-port() {
-    pid=\"\$(lsof -t -i:\$1)\"
-    if [ -n \"\$pid\" ]; then
-        kill -9 \$pid;
-    fi
-}
+##########
+# PYTHON #
+##########
+export PYENV_ROOT=\"$HOME/.pyenv\"
+[[ -d $PYENV_ROOT/bin ]] && export PATH=\"$PYENV_ROOT/bin:$PATH\"
+eval \$(pyenv init -)
+eval \$(pyenv virtualenv-init -)
 
 ###########
 # ALIASES #
@@ -175,23 +164,25 @@ alias update-all-pip-packages=\"pip list --outdated --format=freeze | grep -v '^
 alias subliminal-pt=\"subliminal download -l pt-BR\"
 alias subliminal-en=\"subliminal download -l en\"
 alias config=\"git --git-dir=$HOME/.git_dotfiles/ --work-tree=$HOME\"
-alias python=\"python3\"
-alias android-emulator=\"$HOME/Library/Android/sdk/emulator/emulator -avd Pixel_3a_Android_Q &\"
+alias k9s-prod=\"kubectl config use-context prod && k9s\"
+alias k9s-dev=\"kubectl config use-context dev && k9s\"
+alias gtm=\"git co . && git co main && git fetch -p && git pull\"
 
 ############
 # ENV VARS #
 ############
-export ERL_AFLAGS=\"-kernel shell_history enabled -kernel shell_history_fil_bytes 1024000\"
-export ERL_FLAGS=\"$ERL_FLAGS +S 24:24\"
 export KERL_CONFIGURE_OPTIONS=\"--disable-debug --without-javac --without-wx\"
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export PATH=\"$HOME/development/peek/peek-stack/bin:$PATH\"
+export ANDROID_HOME=\"$HOME/Library/Android/sdk\"
+export PATH=\"/usr/local/bin:$PATH\"
 export PATH=\"$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$PATH\"
 export PATH=\"/opt/homebrew/opt/libpq/bin:$PATH\"
 export PATH=\"$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH\"
+export PATH=\"/opt/homebrew/opt/postgresql@15/bin:$PATH\"
+export PATH=\"$HOME/bin:$PATH\"
 
 . /usr/local/opt/asdf/libexec/asdf.sh
-source $ZSH/oh-my-zsh.sh" >> ~/.zshrc
+source $ZSH/oh-my-zsh.sh
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ~/.zshrc
 
 if [ $(isInstalled sdk) == 1 ]; then
     echo "
@@ -204,22 +195,6 @@ export SDKMAN_DIR=\"\$HOME/.sdkman\"
 fi
 
 source $HOME/.zshrc
-
-################
-# ASDF PLUGINS #
-################
-clear
-echo "
-╔══════════════════════════════════════╗
-║           CONFIGURING ASDF           ║
-╚══════════════════════════════════════╝
-"
-export KERL_BUILD_DOCS=yes
-
-asdf plugin add erlang
-asdf plugin add elixir
-asdf install erlang 25.1.2
-asdf install elixir 1.14.1
 
 clear
 echo "
